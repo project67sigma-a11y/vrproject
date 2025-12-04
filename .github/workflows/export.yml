@@ -1,0 +1,70 @@
+name: Export to HTML5 and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Download Godot 4.3 (LTS)
+        run: |
+          mkdir -p ${{ github.workspace }}/godot
+          cd ${{ github.workspace }}/godot
+          wget -q https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+          unzip -q Godot_v4.3-stable_linux.x86_64.zip
+          chmod +x Godot_v4.3-stable_linux.x86_64
+
+      - name: Download HTML5 Export Templates
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          cd ~/.local/share/godot/export_templates/4.3.stable
+          wget -q https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_web_templates.tpz
+          unzip -q Godot_v4.3-stable_web_templates.tpz
+          rm Godot_v4.3-stable_web_templates.tpz
+
+      - name: Export Project to HTML5
+        run: |
+          ${{ github.workspace }}/godot/Godot_v4.3-stable_linux.x86_64 \
+            --headless \
+            --export-release "HTML5 WebXR" \
+            --path ${{ github.workspace }} \
+            ${{ github.workspace }}/export/html5/index.html
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: html5-export
+          path: ${{ github.workspace }}/export/html5/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload to Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ github.workspace }}/export/html5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Output Pages URL
+        run: |
+          echo "🎉 Export successful! Your project is deployed at:"
+          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"

@@ -1,0 +1,7 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="HUD" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="HUD"]
+text = "Point and press Trigger (or click) to teleport"
+rect_position = Vector2(12, 12)

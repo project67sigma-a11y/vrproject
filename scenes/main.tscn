@@ -1,0 +1,30 @@
+# gd scene with script attached
+[gd_scene load_steps=3 format=3]
+
+[ext_resource path="res://scripts/main.gd" type="Script" id=1]
+
+[node name="Main" type="Node3D"]
+script = ExtResource( 1 )
+# XROrigin is the player origin; the teleport script attaches itself at runtime
+[node name="XROrigin" type="Node3D" parent="Main"]
+
+[node name="Camera3D" type="Camera3D" parent="Main/XROrigin"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0 )
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Main"]
+rotation_degrees = Vector3(-50, 30, 0)
+light_energy = 2.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Main"]
+
+[node name="Tower" type="Node3D" parent="Main"]
+
+[node name="City" type="Node3D" parent="Main"]
+
+[node name="Ocean" type="Node3D" parent="Main"]
+
+[node name="Vehicles" type="Node3D" parent="Main"]
+
+[node name="Airspace" type="Node3D" parent="Main"]
+
+[node name="SignHolder" type="Node3D" parent="Main"]

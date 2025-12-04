@@ -1,0 +1,5 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="InteriorSphere" type="MeshInstance3D"]
+mesh = SphereMesh { radius = 20 }
+scale = Vector3(-1, 1, 1) # invert normals for interior if supported

@@ -1,0 +1,4 @@
+[gd_scene load_steps=1 format=3]
+
+[node name="DroneMesh" type="MeshInstance3D"]
+mesh = CapsuleMesh { radius = 0.25, height = 0.4 }
