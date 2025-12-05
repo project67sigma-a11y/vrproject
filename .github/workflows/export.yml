@@ -43,9 +43,14 @@ jobs:
           mkdir -p ${{ github.workspace }}/docs
           ${{ github.workspace }}/godot/Godot_v4.3-stable_linux.x86_64 \
             --headless \
+            -v \
             --export-release "HTML5 WebXR" \
-            --path ${{ github.workspace }} \
-            ${{ github.workspace }}/docs/index.html
+            ${{ github.workspace }}/docs/index.html 2>&1 | tee export.log
+          
+          echo "=== Export Log ===" 
+          cat export.log
+          echo "=== Files Generated ===" 
+          ls -lah ${{ github.workspace }}/docs/
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
