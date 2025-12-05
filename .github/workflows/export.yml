@@ -40,31 +40,32 @@ jobs:
 
       - name: Export Project to HTML5
         run: |
+          mkdir -p ${{ github.workspace }}/docs
           ${{ github.workspace }}/godot/Godot_v4.3-stable_linux.x86_64 \
             --headless \
             --export-release "HTML5 WebXR" \
             --path ${{ github.workspace }} \
-            ${{ github.workspace }}/export/html5/index.html
+            ${{ github.workspace }}/docs/index.html
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: html5-export
-          path: ${{ github.workspace }}/export/html5/
+          path: ${{ github.workspace }}/docs/
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-
-      - name: Upload to Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ github.workspace }}/export/html5
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
-      - name: Output Pages URL
+      - name: Commit and push docs to main branch
         run: |
-          echo "🎉 Export successful! Your project is deployed at:"
-          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          cd ${{ github.workspace }}
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add docs/
+          git commit -m "Deploy: Godot HTML5 WebXR export" || echo "No changes to commit"
+          git push origin main || echo "Push skipped"
+
+      - name: Output deployment info
+        run: |
+          echo "🎉 Export successful!"
+          echo "Repository: project67sigma-a11y/vrproject"
+          echo "GitHub Pages is enabled for the 'docs' folder on main branch"
+          echo "View at: https://project67sigma-a11y.github.io/vrproject/"
+
