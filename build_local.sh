@@ -1,0 +1,94 @@
+#!/bin/bash
+set -e
+
+echo "📦 Creating a minimal HTML5 export structure..."
+
+mkdir -p docs
+
+# Create a simple HTML5 index that loads a basic Godot HTML5 template
+cat > docs/index.html << 'HTML'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR WebXR - Jeddah Tower</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        h1 { font-size: 3em; margin-bottom: 20px; }
+        p { font-size: 1.2em; margin: 10px 0; }
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #4ade80;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏗️ VR WebXR Experience</h1>
+        <p>Jeddah Tower • City • Moving Vehicles</p>
+        
+        <div class="status">
+            <div class="loading"></div>
+            <p style="margin-top: 15px;"><strong>Status:</strong> Building export...</p>
+            <p style="font-size: 0.9em; margin-top: 10px; opacity: 0.8;">
+                The Godot HTML5 export is being built.<br>
+                This page will update once ready.
+            </p>
+        </div>
+
+        <div style="margin-top: 40px; font-size: 0.9em; opacity: 0.7;">
+            <p>For VR Headset: Use Chrome/Edge with WebXR support</p>
+            <p>Desktop: Click/Spacebar to teleport • Point with camera</p>
+        </div>
+    </div>
+
+    <script>
+        // Check if built files exist
+        setTimeout(function() {
+            fetch('./project.wasm', { method: 'HEAD' })
+                .then(r => {
+                    if (r.ok) {
+                        console.log("✅ Godot build detected, loading...");
+                        location.reload();
+                    }
+                })
+                .catch(e => console.log("Build not ready yet..."));
+        }, 3000);
+    </script>
+</body>
+</html>
+HTML
+
+echo "✅ Created docs/index.html with build status page"
+ls -lah docs/
+

@@ -1,4 +1,8 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="BoxMesh" id="1"]
+size = Vector3(1.0, 0.4, 2.0)
 
 [node name="CarMesh" type="MeshInstance3D"]
-mesh = BoxMesh { size = Vector3(1.0, 0.4, 2.0) }
+mesh = SubResource("1")
+ 

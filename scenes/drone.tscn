@@ -1,4 +1,8 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="CapsuleMesh" id="1"]
+radius = 0.25
+height = 0.4
 
 [node name="DroneMesh" type="MeshInstance3D"]
-mesh = CapsuleMesh { radius = 0.25, height = 0.4 }
+mesh = SubResource("1")

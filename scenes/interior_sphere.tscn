@@ -1,5 +1,9 @@
-[gd_scene load_steps=1 format=3]
+[gd_scene load_steps=2 format=3]
+
+[sub_resource type="SphereMesh" id="1"]
+radius = 20.0
+height = 40.0
 
 [node name="InteriorSphere" type="MeshInstance3D"]
-mesh = SphereMesh { radius = 20 }
-scale = Vector3(-1, 1, 1) # invert normals for interior if supported
+mesh = SubResource("1")
+scale = Vector3(-1, 1, 1)

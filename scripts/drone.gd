@@ -8,7 +8,7 @@ var _time := 0.0
 
 func _process(delta: float) -> void:
     _time += delta
-    unit_offset = (unit_offset + speed * delta * 0.08) % 1.0
+    progress_ratio = fmod(progress_ratio + speed * delta * 0.08, 1.0)
     # bob up and down relative to the follow position
     var bob = sin(_time * bob_speed) * bob_amplitude
-    translation = Vector3(0, bob, 0)
+    position = Vector3(0, bob, 0)
